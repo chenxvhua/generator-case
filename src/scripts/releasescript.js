@@ -42,7 +42,7 @@ else{
     }]).then((answers) => {
         console.log('选择发布版本', answers.publishVersion);
         execa.shellSync("npm version "+answers.publishVersion)
-        //execa.shellSync("git  push —follow-tags")
+        execa.shellSync("git  push —follow-tags")
         console.log("master分支执行完成");
         execa.shellSync("npm publish")
         console.log("发布成功")
