@@ -12,7 +12,6 @@ const fs=require("fs");
 
 execa.shellSync("npm run build");//先执行build
 const detectionFileStatus=execa.shellSync('git diff');
-console.log("detectionFileStatus=",detectionFileStatus);
 if(detectionFileStatus.stdout){
     console.log("有未提交的内容，请先行处理");
     process.exit();
@@ -42,7 +41,8 @@ else{
         default : major+"."+minor+"."+(patch+1)
     }]).then((answers) => {
         console.log('选择发布版本', answers.publishVersion);
-        execa.shellSync("npm version "+answers.publishVersion+" && git  push —follow-tags")
+        execa.shellSync("npm version "+answers.publishVersion)
+        execa.shellSync("git  push —follow-tags")
         console.log("master分支执行完成");
         execa.shellSync("npm publish")
         console.log("发布成功")
