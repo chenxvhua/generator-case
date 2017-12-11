@@ -10,6 +10,7 @@ const semver = require('semver');
 const inquirer = require('inquirer');
 const fs=require("fs");
 
+execa.shellSync("npm run build");//先执行build
 const detectionFileStatus=execa.shellSync('git diff');
 console.log("detectionFileStatus=",detectionFileStatus);
 if(detectionFileStatus.stdout){
@@ -26,7 +27,7 @@ if(branchName !== 'master'){
     execa.shellSync('git commit -m "'+packageObj.version+'"');
     execa.shellSync('git push');
     console.log("非master分支执行完成");
-    execa.shell("npm publish")
+    execa.shellSync("npm publish")
     console.log("发布成功")
 }
 else{
@@ -41,9 +42,9 @@ else{
         default : major+"."+minor+"."+(patch+1)
     }]).then((answers) => {
         console.log('选择发布版本', answers.publishVersion);
-        execa.shell("npm version "+answers.publishVersion+" && git  push —follow-tags")
+        execa.shellSync("npm version "+answers.publishVersion+" && git  push —follow-tags")
         console.log("master分支执行完成");
-        execa.shell("npm publish")
+        execa.shellSync("npm publish")
         console.log("发布成功")
     });
 }
