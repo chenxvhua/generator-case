@@ -23,7 +23,7 @@ if (branchName !== 'master') {
     fs.writeFileSync("package.json", JSON.stringify(packageObj, null, 2), "utf8");
     packageObj.devDependencies={};
     packageObj.scripts={};
-    fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
+    fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
     execa.shellSync('git add *');
     execa.shellSync('git commit -m "' + packageObj.version + '"');
     execa.shellSync('git push');
@@ -48,7 +48,7 @@ else {
         let packageObj = require("../../../package.json");
         packageObj.devDependencies={};
         packageObj.scripts={};
-        fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
+        fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
         execa.shellSync('git add *');
         execa.shellSync('git commit -m "' + packageObj.version + '"');
         execa.shellSync("git  push --follow-tags")
