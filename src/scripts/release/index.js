@@ -23,36 +23,45 @@ if (branchName !== 'master') {
     fs.writeFileSync("package.json", JSON.stringify(packageObj, null, 2), "utf8");
     packageObj.devDependencies={};
     packageObj.scripts={};
-    fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
+    fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
     execa.shellSync('git add *');
     execa.shellSync('git commit -m "' + packageObj.version + '"');
     execa.shellSync('git push');
     console.log("非master分支执行完成");
-    execa.shellSync("cd build && npm publish")
+    execa.shellSync('cd build');
+    execa.shellSync("npm publish")
     console.log("发布成功")
 }
 else {
-    const major = semver.major(packageObj.version);
-    const minor = semver.minor(packageObj.version);
-    const patch = semver.patch(packageObj.version);
     inquirer.prompt([{
         type: 'list',
         name: 'publishVersion',
         message: '请选择发布版本',
-        choices: [(major + 1) + "." + minor + "." + patch, major + "." + (minor + 1) + "." + patch, major + "." + minor + "." + (patch + 1)],
-        default: major + "." + minor + "." + (patch + 1)
+        choices: ["主版本号","次版本号","修订号"],
+        default:"主版本号"
     }]).then((answers) => {
-        console.log('选择发布版本', answers.publishVersion);
-        execa.shellSync("npm version " + answers.publishVersion);
+        let tag="major"
+        if(answers==="次版本号"){
+            tag="minor"
+        }
+        else if(answers==="修订号"){
+            tag="patch"
+        }
+        //major, minor, patch
         let packageObj = require("../../../package.json");
+        const newVersion = semver.inc(packageObj.version, 'prerelease', tag)
+        console.log('你选择的发布版本', answers.publishVersion);
+        execa.shellSync("npm version " + answers.publishVersion);
+
         packageObj.devDependencies={};
         packageObj.scripts={};
-        fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
+        fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
         execa.shellSync('git add *');
         execa.shellSync('git commit -m "' + packageObj.version + '"');
         execa.shellSync("git  push --follow-tags")
         console.log("master分支执行完成");
-        execa.shellSync('cd build && npm publish');
+        execa.shellSync('cd build');
+        execa.shellSync("npm publish")
         console.log("发布成功")
     });
 }
