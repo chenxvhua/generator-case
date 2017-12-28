@@ -10,10 +10,10 @@ const fs = require("fs");
 
 execa.shellSync("npm run build");//先执行build
 const detectionFileStatus = execa.shellSync('git status -uno --s');
-// if (detectionFileStatus.stdout) {
-//     console.log("有未提交的内容，请先行处理");
-//     process.exit();
-// }
+if (detectionFileStatus.stdout) {
+    console.log("有未提交的内容，请先行处理");
+    process.exit();
+}
 
 if (branchName !== 'master') {
     let packageObj = require("../../../package.json");
