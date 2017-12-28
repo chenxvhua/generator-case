@@ -59,7 +59,7 @@ else {
         execa.shellSync('git commit -m "' + packageObj.version + '"');
 
         //git push origin master
-        execa.shellSync("git  origin master --follow-tags")
+       // execa.shellSync("git  origin master --follow-tags")
         console.log("master分支执行完成");
         execa.shellSync('cd build && npm publish');
         console.log("发布成功")
