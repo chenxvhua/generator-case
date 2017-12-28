@@ -1,6 +1,6 @@
 {
   "name": "pure-testgen",
-  "version": "2.1.1-0",
+  "version": "2.1.1-premajor.0",
   "description": "",
   "main": "index.js",
   "scripts": {
