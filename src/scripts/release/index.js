@@ -57,7 +57,9 @@ else {
         fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
         execa.shellSync('git add *');
         execa.shellSync('git commit -m "' + packageObj.version + '"');
-        execa.shellSync("git  push --follow-tags")
+
+        //git push origin master
+        execa.shellSync("git  origin master --follow-tags")
         console.log("master分支执行完成");
         execa.shellSync('cd build && npm publish');
         console.log("发布成功")
