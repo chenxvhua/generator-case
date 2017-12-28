@@ -40,16 +40,16 @@ else {
         choices: ["主版本号","次版本号","修订号"],
         default:"主版本号"
     }]).then((answers) => {
-        let tag="major"
+        let tag="premajor"
         if(answers.publishVersion==="次版本号"){
-            tag="minor"
+            tag="preminor"
         }
         else if(answers.publishVersion==="修订号"){
-            tag="patch"
+            tag="prepatch"
         }
-        //major, minor, patch
+        //major, minor, patch  premajor  preminor prepatch
         let packageObj = require("../../../package.json");
-        const newVersion = semver.inc(packageObj.version, 'prerelease', tag)
+        const newVersion = semver.inc(packageObj.version,tag)
         console.log('你选择的发布版本', answers.publishVersion,newVersion);
         execa.shellSync("npm version " + newVersion);
 
