@@ -28,8 +28,7 @@ if (branchName !== 'master') {
     execa.shellSync('git commit -m "' + packageObj.version + '"');
     execa.shellSync('git push');
     console.log("非master分支执行完成");
-    execa.shellSync('cd build');
-    execa.shellSync("npm publish")
+    execa.shellSync("cd build && npm publish")
     console.log("发布成功")
 }
 else {
@@ -53,8 +52,7 @@ else {
         execa.shellSync('git commit -m "' + packageObj.version + '"');
         execa.shellSync("git  push --follow-tags")
         console.log("master分支执行完成");
-        execa.shellSync('cd build');
-        execa.shellSync("npm publish")
+        execa.shellSync('cd build && npm publish');
         console.log("发布成功")
     });
 }
