@@ -2,7 +2,6 @@
  * Created by chenxuhua on 2017/12/8.
  */
 const execa = require('execa');
-const packageObj = require("../../../package.json");
 const branch = require('git-branch');
 const branchName = branch.sync();
 const semver = require('semver');
@@ -16,17 +15,20 @@ if (detectionFileStatus.stdout) {
     process.exit();
 }
 
-console.log("branchName=",branchName);
-
 if (branchName !== 'master') {
+    let packageObj = require("../../../package.json");
     const newVersion = semver.inc(packageObj.version, 'prerelease', 'beta')
     packageObj.version = newVersion;
     console.log("newVersion=", newVersion);
-    fs.writeFileSync("package2.json", JSON.stringify(packageObj, null, 2), "utf8");
+    fs.writeFileSync("package.json", JSON.stringify(packageObj, null, 2), "utf8");
+    packageObj.devDependencies={};
+    packageObj.scripts={};
+    fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
     execa.shellSync('git add *');
     execa.shellSync('git commit -m "' + packageObj.version + '"');
     execa.shellSync('git push');
     console.log("非master分支执行完成");
+    execa.shellSync('cd build');
     execa.shellSync("npm publish")
     console.log("发布成功")
 }
@@ -42,9 +44,16 @@ else {
         default: major + "." + minor + "." + (patch + 1)
     }]).then((answers) => {
         console.log('选择发布版本', answers.publishVersion);
-        execa.shellSync("npm version " + answers.publishVersion)
+        execa.shellSync("npm version " + answers.publishVersion);
+        let packageObj = require("../../../package.json");
+        packageObj.devDependencies={};
+        packageObj.scripts={};
+        fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
+        execa.shellSync('git add *');
+        execa.shellSync('git commit -m "' + packageObj.version + '"');
         execa.shellSync("git  push --follow-tags")
         console.log("master分支执行完成");
+        execa.shellSync('cd build');
         execa.shellSync("npm publish")
         console.log("发布成功")
     });
