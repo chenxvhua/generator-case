@@ -49,7 +49,7 @@ else {
         }
         //major, minor, patch  premajor  preminor prepatch
         let packageObj = require("../../../package.json");
-        const newVersion = semver.inc(packageObj.version,null,tag)
+        const newVersion = semver.inc("1.1.1",tag)
         console.log('你选择的发布版本', answers.publishVersion,newVersion);
         execa.shellSync("npm version " + newVersion);
 
