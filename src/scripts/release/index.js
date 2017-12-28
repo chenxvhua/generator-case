@@ -22,7 +22,7 @@ if (branchName !== 'master') {
     const newVersion = semver.inc(packageObj.version, 'prerelease', 'beta')
     packageObj.version = newVersion;
     console.log("newVersion=", newVersion);
-    fs.writeFileSync("package.json", JSON.stringify(packageObj, null, 2), "utf8");
+    fs.writeFileSync("package2.json", JSON.stringify(packageObj, null, 2), "utf8");
     execa.shellSync('git add *');
     execa.shellSync('git commit -m "' + packageObj.version + '"');
     execa.shellSync('git push');
