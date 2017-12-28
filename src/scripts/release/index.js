@@ -23,7 +23,7 @@ if (branchName !== 'master') {
     fs.writeFileSync("package.json", JSON.stringify(packageObj, null, 2), "utf8");
     packageObj.devDependencies={};
     packageObj.scripts={};
-    fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
+    fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
     execa.shellSync('git add *');
     execa.shellSync('git commit -m "' + packageObj.version + '"');
     execa.shellSync('git push');
@@ -41,21 +41,22 @@ else {
         default:"主版本号"
     }]).then((answers) => {
         let tag="major"
-        if(answers==="次版本号"){
+        if(answers.publishVersion==="次版本号"){
             tag="minor"
         }
-        else if(answers==="修订号"){
+        else if(answers.publishVersion==="修订号"){
             tag="patch"
         }
         //major, minor, patch
         let packageObj = require("../../../package.json");
         const newVersion = semver.inc(packageObj.version, 'prerelease', tag)
-        console.log('你选择的发布版本', answers.publishVersion);
-        execa.shellSync("npm version " + answers.publishVersion);
+        console.log('你选择的发布版本', answers.publishVersion,newVersion);
+        execa.shellSync("npm version " + newVersion);
 
+        packageObj.version = newVersion;
         packageObj.devDependencies={};
         packageObj.scripts={};
-        fs.writeFileSync("app/package.json", JSON.stringify(packageObj, null, 2), "utf8");
+        fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
         execa.shellSync('git add *');
         execa.shellSync('git commit -m "' + packageObj.version + '"');
         execa.shellSync("git  push --follow-tags")
