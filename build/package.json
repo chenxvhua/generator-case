@@ -1,12 +1,13 @@
 {
   "name": "pure-testgen",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "node src/scripts/build.js",
     "release": "node src/scripts/release.js"
   },
+
   "author": "",
   "license": "ISC",
   "dependencies": {

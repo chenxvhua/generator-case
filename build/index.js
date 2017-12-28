@@ -5,6 +5,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /**
  * Created by chenxuhua on 2017/9/6.
  */
+
 var obj1 = {
   name: "a",
   age: "22"
