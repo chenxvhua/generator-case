@@ -55,8 +55,8 @@ else {
         packageObj.devDependencies={};
         packageObj.scripts={};
         fs.writeFileSync("build/package.json", JSON.stringify(packageObj, null, 2), "utf8");
-       // execa.shellSync('git add *');
-       // execa.shellSync('git commit -m "' + packageObj.version + '"');
+        // execa.shellSync('git add *');
+        // execa.shellSync('git commit -m "' + packageObj.version + '"');
 
         execa.shellSync("git  push --follow-tags")
         console.log("master分支执行完成");
