@@ -39,12 +39,12 @@ else {
         choices: ["主版本号","次版本号","修订号"],
         default:"主版本号"
     }]).then((answers) => {
-        let tag="premajor"
+        let tag="major"
         if(answers.publishVersion==="次版本号"){
-            tag="preminor"
+            tag="minor"
         }
         else if(answers.publishVersion==="修订号"){
-            tag="prepatch"
+            tag="patch"
         }
         let packageObj = require("../../../package.json");
         const newVersion = semver.inc(packageObj.version, tag)
