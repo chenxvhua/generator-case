@@ -10,7 +10,7 @@ export default statisticsLine
 
 
 
-fs.copyFileSync('README.md', 'build/README.md')
+
 
 
 
