@@ -3,20 +3,14 @@
  */
 
 import statisticsLine from "./statistics_line/index.js"
-const path = require("path")
-const result = statisticsLine({
-    workDic: path.resolve(process.cwd(), "src/testdir"),
-    "filenameExtension": [".js", ".css"],
-    exclude:/sub2/
-}).then(function (result) {
-    console.log("result=", JSON.stringify(result))
-})
+
+export default statisticsLine
 
 
 
 
 
-
+fs.copyFileSync('README.md', 'build/README.md')
 
 
 

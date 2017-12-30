@@ -6,7 +6,7 @@ const branch = require('git-branch')
 const branchName = branch.sync()
 const semver = require('semver')
 const inquirer = require('inquirer')
-const fs = require("fs")
+const fs = require("fse")
 
 execa.shellSync("npm run build")//先执行build
 const detectionFileStatus = execa.shellSync('git status -uno --s')
@@ -29,7 +29,7 @@ if (branchName !== 'master') {
     execa.shellSync('git push')
     console.log("非master分支执行完成")
     execa.shellSync('cd build && npm publish')
-    fs.copyFileSync('README.md', 'build/')
+    fs.copyFileSync('README.md', 'build/README.md')
     console.log("发布成功")
 }
 else {
@@ -62,7 +62,7 @@ else {
         execa.shellSync("git  push --follow-tags")
         console.log("master分支执行完成");
         execa.shellSync('cd build && npm publish')
-        fs.copyFileSync('README.md', 'build/')
+        fs.copyFileSync('README.md', 'build/README.md')
         console.log("发布成功")
     });
 }
