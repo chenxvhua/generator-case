@@ -29,7 +29,7 @@ if (branchName !== 'master') {
     execa.shellSync('git push')
     console.log("非master分支执行完成")
     execa.shellSync('cd build && npm publish')
-    fs.copyFileSync('README.md', 'build/README.md')
+    fs.copyFileSync('README.md', 'build/')
     console.log("发布成功")
 }
 else {
@@ -62,7 +62,7 @@ else {
         execa.shellSync("git  push --follow-tags")
         console.log("master分支执行完成");
         execa.shellSync('cd build && npm publish')
-        fs.copyFileSync('README.md', 'build/README.md')
+        fs.copyFileSync('README.md', 'build/')
         console.log("发布成功")
     });
 }
